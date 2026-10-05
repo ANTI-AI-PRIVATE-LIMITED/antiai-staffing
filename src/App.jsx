@@ -306,7 +306,7 @@ function Footer() {
 
       <div className="footer-main">
         <div className="footer-brand-col">
-          <h3 className="footer-big-brand">ANTI<span className="footer-dot">.</span>AI</h3>
+          <img src="/logo.svg" alt="ANTI.AI" style={{ height: 'clamp(50px, 7vw, 90px)', marginBottom: '26px', display: 'block' }} />
           <p className="footer-tagline">Staffing across technology, sales, HR, finance, operations, marketing and customer teams—designed around the work that needs to get done.</p>
           <div className="footer-socials">
             <a href="https://www.linkedin.com/company/antiai" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a>
