@@ -1,41 +1,47 @@
-# ANTI.AI Staffing — Promotional Site
+# ANTI.AI Staffing — Promotional React Site
 
-Standalone React + Vite marketing site for ANTI.AI's staffing service.
+A standalone React/Vite marketing site for ANTI.AI's staffing service.
 
 ## Positioning
-This is **not** the staffing portal/ATS. It is the public-facing promotional website designed to explain the service, showcase representative talent and convert visitors into discovery calls.
 
-## Highlights
-- Premium red / white / black editorial design
-- Responsive desktop/tablet/mobile layouts
-- React Router routes:
-  - `/staffing`
-  - `/how-it-works`
-  - `/talent`
-  - `/industries`
-  - `/contact`
-- Direct Calendly CTA wired to `https://calendly.com/tanishq-antiai/30min`
-- Reusable sections and cards
-- Local logo SVG and no required image-hosting dependency for the core visual system
-- Accessible buttons, nav states and responsive mobile booking bar
+The site is intentionally broader than tech recruitment. It presents ANTI.AI as a staffing partner across:
+
+- Technology & AI
+- Sales & Business Development
+- HR & Talent
+- Finance & Operations
+- Marketing & Growth
+- Customer & Support
+
+## Routes
+
+- `/staffing` — main promotional experience
+- `/how-it-works` — staffing process
+- `/talent` — representative talent wall with function filters
+- `/industries` — industry positioning
+- `/contact` — Calendly conversion page
+
+## Key UI changes
+
+- Reworked the homepage around "more than tech hiring".
+- Added a role-family explorer with six business functions.
+- Replaced the repetitive sample-talent grid with a mixed editorial talent wall.
+- Added representative non-technical talent: HR, BDE / sales, finance, marketing, customer success and talent acquisition.
+- Added business and productivity tools to show breadth beyond engineering stacks.
+- Added working animated horizontal marquees for technologies and common tools.
+- Fixed the main-page scroll issue by removing the vertical `overflow:hidden` constraint from the shell and keeping only horizontal clipping.
+- Expanded the footer into a full navigation / functions / CTA layout.
+- Calendly CTAs use `https://calendly.com/tanishq-antiai/30min`.
 
 ## Run
+
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+Production build:
+
 ```bash
 npm run build
-npm run preview
 ```
-
-## Customization points
-- `src/data.js` — representative talent, industries and technology tags
-- `src/App.jsx` — page/route content and reusable components
-- `src/styles.css` — visual system, responsive breakpoints and page layouts
-- `public/antiai-mark.svg` — local ANTI.AI staffing mark
-
-## Notes
-The sample talent profiles are deliberately labelled as representative in the site copy. Replace them with real candidate/talent data when the staffing platform backend is available.
