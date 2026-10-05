@@ -29,6 +29,10 @@ The site is intentionally broader than tech recruitment. It presents ANTI.AI as 
 - Added representative non-technical talent: HR, BDE / sales, finance, marketing, customer success and talent acquisition.
 - Added business and productivity tools to show breadth beyond engineering stacks.
 - Added working animated horizontal marquees for technologies and common tools.
+- Updated the visual system to a minimal black / white / ANTI.AI-red palette for a cleaner premium direction.
+- Introduced an editorial serif display font for the major headlines while keeping Manrope/mono for body and metadata.
+- Added animated process cards with red signal lines, hover elevation and motion.
+- Rebuilt the large red positioning section into a more structured editorial composition with function chips and subtle motion.
 - Fixed the main-page scroll issue by removing the vertical `overflow:hidden` constraint from the shell and keeping only horizontal clipping.
 - Expanded the footer into a full navigation / functions / CTA layout.
 - Calendly CTAs use `https://calendly.com/tanishq-antiai/30min`.

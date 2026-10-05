@@ -125,17 +125,32 @@ function Home() {
       <div className="container">
         <div className="section-head split-head light-head"><div><SectionLabel eyebrow="02 / HOW IT WORKS">One process. Any function.</SectionLabel></div><p>Whether the brief is for a senior engineer, BDE, recruiter or finance associate, the path stays simple: understand the work, curate the right people, meet, then move.</p></div>
         <div className="process-grid">
-          <ProcessStep number="01" title="Define the brief" desc="Role, outcomes, level, tools, location and the working context." icon={<Search/>} />
-          <ProcessStep number="02" title="Shape the shortlist" desc="We narrow the search around real requirements, not keyword noise." icon={<UserRoundSearch/>} />
-          <ProcessStep number="03" title="Meet the people" desc="Your team speaks directly with the shortlist and evaluates fit." icon={<Handshake/>} />
-          <ProcessStep number="04" title="Start the work" desc="Choose the engagement model and bring the right capacity in." icon={<Workflow/>} />
+          <ProcessStep number="01" title="Define the brief" desc="Role, outcomes, level, tools, location and working context." kicker="CLARITY FIRST" icon={<Search/>} />
+          <ProcessStep number="02" title="Shape the shortlist" desc="We narrow the search around real requirements, not keyword noise." kicker="LESS NOISE" icon={<UserRoundSearch/>} />
+          <ProcessStep number="03" title="Meet the people" desc="Your team speaks directly with the shortlist and evaluates fit." kicker="REAL FIT" icon={<Handshake/>} />
+          <ProcessStep number="04" title="Start the work" desc="Choose the engagement model and bring the right capacity in." kicker="MOVE FORWARD" icon={<Workflow/>} />
         </div>
         <div className="dark-cta-row"><div><span className="tiny-overline">READY WHEN YOU ARE</span><strong>Bring us the hard-to-fill role.</strong></div><PrimaryButton dark>Start the conversation</PrimaryButton></div>
       </div>
     </section>
 
     <section className="section red-section statement-section">
-      <div className="container statement-layout"><div className="statement-mark">PEOPLE</div><div><span className="tiny-overline">WHY ANTI.AI STAFFING</span><h2>One partner for the roles <em>around the role.</em></h2><p>A strong team is rarely one job title. We help you add the technical, commercial and operational people that keep the whole business moving.</p><PrimaryButton dark>Talk to a specialist</PrimaryButton></div></div>
+      <div className="container statement-layout statement-layout-refined">
+        <div className="statement-side">
+          <span className="statement-index">ANTI.AI / 06 FUNCTIONS</span>
+          <div className="statement-word">STAFF<br/>THE<br/>WHOLE</div>
+          <div className="statement-side-note">Technology · Commercial · People · Finance · Growth · Support</div>
+        </div>
+        <div className="statement-main">
+          <span className="tiny-overline">WHY ANTI.AI STAFFING</span>
+          <h2>Not just the role.<br/><em>The people around it.</em></h2>
+          <p>A strong team is rarely one job title. Build the technical, commercial and operational layer around the work—without turning every gap into a separate hiring project.</p>
+          <div className="statement-chips">
+            {['Technology & AI','Sales & BDE','HR & Talent','Finance & Operations','Marketing & Growth','Customer & Support'].map((item, i) => <span key={item} style={{'--i': i}}>{item}<ArrowUpRight size={13}/></span>)}
+          </div>
+          <PrimaryButton dark>Talk to a specialist</PrimaryButton>
+        </div>
+      </div>
     </section>
 
     <section className="section section-light showcase-section">
@@ -216,8 +231,14 @@ function ToolCloud({ items }) {
   return <div className="tool-cloud">{items.map((tool, i) => <span key={`${tool}-${i}`}>{tool}</span>)}</div>;
 }
 
-function ProcessStep({ number, title, desc, icon }) {
-  return <div className="process-step"><span className="process-number">{number}</span><div className="process-icon">{icon}</div><div><h3>{title}</h3><p>{desc}</p></div></div>;
+function ProcessStep({ number, title, desc, kicker, icon }) {
+  return <div className="process-step">
+    <div className="process-step-top"><span className="process-number">{number}</span><span className="process-kicker">{kicker}</span></div>
+    <div className="process-icon">{icon}</div>
+    <div className="process-step-copy"><h3>{title}</h3><p>{desc}</p></div>
+    <div className="process-step-line" aria-hidden="true"/>
+    <span className="process-step-arrow" aria-hidden="true"><ArrowUpRight size={15}/></span>
+  </div>;
 }
 
 function Capability({ icon, title, desc, tag, large }) { return <article className={`cap-card ${large ? 'cap-large' : ''}`}><div className="cap-icon">{icon}</div><span className="card-tag">{tag}</span><h3>{title}</h3><p>{desc}</p><ArrowUpRight className="card-arrow" size={18}/></article> }
