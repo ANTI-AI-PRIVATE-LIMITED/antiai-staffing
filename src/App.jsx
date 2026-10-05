@@ -41,8 +41,7 @@ function Navbar() {
   return <header className="nav-wrap">
     <div className="nav">
       <NavLink to="/staffing" className="brand" onClick={() => setOpen(false)}>
-        <img src="/antiai-mark.svg" alt="ANTI.AI" />
-        <span><b>ANTI</b><i>.AI</i><small>STAFFING</small></span>
+        <img src="/logo.svg" alt="ANTI.AI" style={{ height: '36px', width: 'auto' }} />
       </NavLink>
       <nav className={`nav-links ${open ? 'is-open' : ''}`}>
         <NavLink to="/staffing" onClick={() => setOpen(false)}>Staffing</NavLink>
