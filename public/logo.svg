@@ -1,3 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
-  <text x="0" y="42" font-family="Inter, Arial, Helvetica, sans-serif" font-weight="900" font-size="36" fill="#111" letter-spacing="2">ANTI AI</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6110 700" width="6110" height="700">
+  <path fill="#111112" fill-rule="evenodd" d="M 870.4 700 H 1236.5 L 865.3 0 H 371.2 L 0.0 700 H 366.1 L 427.5 574 H 809.0 Z M 514.6 394 L 618.2 180 L 721.9 394 Z M 2122.2 0 V 413 L 1735.7 0 H 1300.5 V 700 H 1633.3 V 287 L 2019.8 700 H 2455.0 V 0 Z M 3619.8 0 H 2519.0 V 220 H 2903.0 V 700 H 3235.8 V 220 H 3619.8 Z M 4016.6 0 H 3683.8 V 700 H 4016.6 Z M 5347.8 700 H 5713.9 L 5342.7 0 H 4848.6 L 4477.4 700 H 4843.5 L 4905.0 574 H 5286.4 Z M 4992.0 394 L 5095.7 180 L 5199.4 394 Z M 6110.7 0 H 5777.9 V 700 H 6110.7 Z" />
+  <rect x="4119.0" y="525" width="268.8" height="175" fill="#e63946" />
 </svg>
