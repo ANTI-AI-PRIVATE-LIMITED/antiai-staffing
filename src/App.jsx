@@ -96,6 +96,24 @@ function useScrollTop() {
   }, [pathname, hash]);
 }
 
+// Per-page dynamic title & meta description for SEO
+function useDocumentMeta(title, description) {
+  useEffect(() => {
+    if (title) document.title = title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && description) metaDesc.setAttribute('content', description);
+    // Update OG and Twitter tags too
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (ogTitle && title) ogTitle.setAttribute('content', title);
+    if (ogDesc && description) ogDesc.setAttribute('content', description);
+    if (twTitle && title) twTitle.setAttribute('content', title);
+    if (twDesc && description) twDesc.setAttribute('content', description);
+  }, [title, description]);
+}
+
 function App() {
   useScrollTop();
   return <div className="app-shell">
@@ -116,12 +134,31 @@ function App() {
   </div>;
 }
 
+function AntiAiGlobe({ size = 54, light = false, className = '' }) {
+  return (
+    <img
+      src={light ? "/globe-white.png" : "/globe-dark.png"}
+      alt="ANTI.AI"
+      width={size}
+      height={size}
+      className={`antiai-globe-icon ${className}`}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        objectFit: 'contain',
+        display: 'block'
+      }}
+    />
+  );
+}
+
 function Navbar() {
   const [open, setOpen] = useState(false);
   return <header className="nav-wrap">
     <div className="nav">
-      <NavLink to="/staffing" className="brand" onClick={() => setOpen(false)}>
-        <img src="/logo-red.svg" alt="ANTI.AI" style={{ height: '15px', width: 'auto', display: 'block' }} />
+      <NavLink to="/staffing" className="brand" onClick={() => setOpen(false)} aria-label="ANTI.AI Staffing">
+        <AntiAiGlobe size={44} className="brand-globe-icon" />
+        <img src="/logo-red.svg" alt="ANTI.AI" className="brand-text-logo" style={{ height: '20px', width: 'auto', display: 'block' }} />
       </NavLink>
       <nav className={`nav-links ${open ? 'is-open' : ''}`}>
         <NavLink to="/staffing" onClick={() => setOpen(false)}>Staffing</NavLink>
@@ -129,6 +166,7 @@ function Navbar() {
         <NavLink to="/talent" onClick={() => setOpen(false)}>Talent</NavLink>
         <NavLink to="/industries" onClick={() => setOpen(false)}>Industries</NavLink>
         <NavLink to="/contact" onClick={() => setOpen(false)}>Contact</NavLink>
+        <a href="https://antiai.ltd" target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="nav-external-link">ANTI.AI <ArrowUpRight size={13}/></a>
       </nav>
       <div className="nav-actions">
         <a className="text-link hide-mobile" href={CALENDLY} target="_blank" rel="noreferrer">Schedule a call <ArrowUpRight size={16}/></a>
@@ -160,17 +198,21 @@ function RoleIcon({ type, size=21 }) {
 }
 
 function Home() {
+  useDocumentMeta(
+    'ANTI.AI Staffing — Hire Pre-Vetted Talent Across 6 Functions',
+    'Staff augmentation and dedicated teams across technology, sales, HR, finance, marketing and operations. First vetted candidates in under 48 hours.'
+  );
   return <>
     <section className="hero hero-home">
       <div className="hero-grid"></div>
       <div className="container hero-inner">
         <div className="hero-copy">
           <div className="eyebrow"><span className="status-dot"/> STAFFING, WITHOUT THE BOX</div>
-          <h1>The people behind your next stage of <em>growth.</em></h1>
-          <p className="hero-lead">ANTI.AI helps companies access the people they need across technology, sales, BDE, HR, finance, marketing, operations and customer-facing teams.</p>
-          <div className="hero-actions"><PrimaryButton/><a className="ghost-link" href="#roles" onClick={(e) => { e.preventDefault(); document.getElementById('roles')?.scrollIntoView({ behavior: 'smooth' }); }}>Explore roles <ChevronRight size={17}/></a></div>
-          <div className="micro-proof"><ShieldCheck size={17}/><span>One staffing partner. Multiple functions. A single path to get moving.</span></div>
-          <div className="hero-pills"><span>TECH + AI</span><span>SALES + BDE</span><span>HR + TALENT</span><span>FINANCE + OPS</span><span>MARKETING</span></div>
+          <h1>The people your business actually needs, <em>right now.</em></h1>
+          <p className="hero-lead">Most companies don't have a strategy problem. They have a people problem. ANTI.AI finds the right person across tech, sales, HR, finance, marketing and ops—and gets them in front of you fast.</p>
+          <div className="hero-actions"><PrimaryButton/><a className="ghost-link" href="#roles" onClick={(e) => { e.preventDefault(); document.getElementById('roles')?.scrollIntoView({ behavior: 'smooth' }); }}>See what we staff <ChevronRight size={17}/></a></div>
+          <div className="micro-proof"><ShieldCheck size={17}/><span>One call. Every function. No middlemen.</span></div>
+          <div className="hero-pills"><span>TECHNOLOGY</span><span>SALES + BDE</span><span>HR + TALENT</span><span>FINANCE + OPS</span><span>MARKETING</span></div>
         </div>
         <div className="hero-visual">
           <div className="hero-orbit orbit-a"></div><div className="hero-orbit orbit-b"></div><div className="hero-orbit orbit-c"></div>
@@ -196,21 +238,21 @@ function Home() {
 
     <section className="section section-light role-intro" id="roles">
       <div className="container">
-        <div className="section-head split-head"><div><SectionLabel eyebrow="01 / WHAT WE STAFF">More than tech hiring.</SectionLabel></div><p>Your roadmap needs more than developers. Build the whole layer around the work—from the engineer writing the product to the people selling it, supporting it and keeping the business running.</p></div>
+        <div className="section-head split-head"><div><SectionLabel eyebrow="01 / WHAT WE STAFF">Every seat around the work.</SectionLabel></div><p>Developers don't ship alone. Behind every product there's a sales team, an ops person, someone in HR holding it together and a finance lead watching the numbers. We staff all of it.</p></div>
         <RoleExplorer />
       </div>
     </section>
 
     <section className="section dark-section process-preview">
       <div className="container">
-        <div className="section-head split-head light-head"><div><SectionLabel eyebrow="02 / HOW IT WORKS">One process. Any function.</SectionLabel></div><p>Whether the brief is for engineering, sales, HR, operations or finance, the path stays simple: understand the work, curate the right people, meet, then move.</p></div>
+        <div className="section-head split-head light-head"><div><SectionLabel eyebrow="02 / HOW IT WORKS">Simple process, any role.</SectionLabel></div><p>Same four steps whether you need an engineer or a finance lead. You tell us the work. We find the person. You meet them. Done.</p></div>
         <div className="process-grid">
-          <ProcessStep number="01" title="Role Scoping" desc="Define competencies, seniority level, compensation, and team dynamics." kicker="REQUIREMENT BRIEF" icon={<Target/>} />
-          <ProcessStep number="02" title="Candidate Screening" desc="Targeted sourcing and rigorous vetting to deliver top 2–3 finalists." kicker="TOP 3% TALENT" icon={<UserRoundSearch/>} />
-          <ProcessStep number="03" title="Direct Interviews" desc="Speak directly with pre-screened finalists coordinated around your calendar." kicker="DIRECT DIALOGUE" icon={<Handshake/>} />
-          <ProcessStep number="04" title="Placement & Onboarding" desc="Turnkey employment agreements, global payroll, compliance, and Day-1 ramp-up." kicker="TURNKEY SCALE" icon={<Workflow/>} />
+          <ProcessStep number="01" title="Role Scoping" desc="A quick 30-minute call to understand who you need, what they'll own, and what you're looking to pay." kicker="REQUIREMENT BRIEF" icon={<Target/>} />
+          <ProcessStep number="02" title="Candidate Screening" desc="We filter through dozens of candidates and hand-pick the top 2–3 who actually fit the work." kicker="TOP 3% TALENT" icon={<UserRoundSearch/>} />
+          <ProcessStep number="03" title="Direct Interviews" desc="Interview pre-screened finalists directly on your schedule. No recruiter middlemen." kicker="DIRECT DIALOGUE" icon={<Handshake/>} />
+          <ProcessStep number="04" title="Placement & Onboarding" desc="We handle contracts, international payroll, and paperwork so your hire starts right away." kicker="TURNKEY SCALE" icon={<Workflow/>} />
         </div>
-        <div className="dark-cta-row"><div><span className="tiny-overline">READY WHEN YOU ARE</span><strong>Scale your team with verified specialists.</strong></div><PrimaryButton dark>Start the conversation</PrimaryButton></div>
+        <div className="dark-cta-row"><div><span className="tiny-overline">READY WHEN YOU ARE</span><strong>Tell us who you're looking for. We'll handle the search.</strong></div><PrimaryButton dark>Start the conversation</PrimaryButton></div>
       </div>
     </section>
 
@@ -223,10 +265,10 @@ function Home() {
         </div>
         <div className="statement-main">
           <span className="tiny-overline">WHY ANTI.AI STAFFING</span>
-          <h2>Not just the role.<br/><em>The people around it.</em></h2>
-          <p>A strong team is rarely one job title. Build the technical, commercial and operational layer around the work—without turning every gap into a separate hiring project.</p>
+          <h2>You're not hiring a role.<br/><em>You're hiring a person.</em></h2>
+          <p>Job descriptions don't build companies—people do. We look past the CV to find someone who actually fits how your team works and what it needs to get done.</p>
           <div className="statement-chips">
-            {['Technology & AI','Sales & BDE','HR & Talent','Finance & Operations','Marketing & Growth','Customer & Support'].map((item, i) => <span key={item} style={{'--i': i}}>{item}</span>)}
+            {['Technology & Engineering','Sales & BDE','HR & Talent','Finance & Operations','Marketing & Growth','Customer & Support'].map((item, i) => <span key={item} style={{'--i': i}}>{item}</span>)}
           </div>
           <PrimaryButton dark>Talk to a specialist</PrimaryButton>
         </div>
@@ -235,13 +277,13 @@ function Home() {
 
     <section className="section section-light showcase-section">
       <div className="container">
-        <div className="section-head split-head"><div><SectionLabel eyebrow="03 / REPRESENTATIVE TALENT">See the range, not just the resume.</SectionLabel></div><p>Representative profiles show how ANTI.AI can present talent across functions. Connect this layer to the staffing portal when real profiles are ready.</p></div>
+        <div className="section-head split-head"><div><SectionLabel eyebrow="03 / REPRESENTATIVE TALENT">A feel for who's in the pool.</SectionLabel></div><p>These are the kinds of people we work with. Senior, pre-vetted, and already active across multiple business functions.</p></div>
         <StaffingShowcaseWall />
       </div>
     </section>
 
     <section className="section cream-section">
-      <div className="container"><div className="section-head split-head"><div><SectionLabel eyebrow="04 / ENGAGEMENTS">Choose the shape of the engagement.</SectionLabel></div><p>Use the model that matches the business need instead of forcing every requirement into the same hiring motion.</p></div>
+      <div className="container"><div className="section-head split-head"><div><SectionLabel eyebrow="04 / ENGAGEMENTS">Pick the setup that fits.</SectionLabel></div><p>Not every hire looks the same. Sometimes you need one person embedded in your team. Sometimes you need a full group. We work either way.</p></div>
         <div className="engagement-grid">
           <Engagement label="01" title="Staff Augmentation" desc="Add one specialist directly into an existing team or function." bullets={['Embedded with your team','Flexible capacity','You stay in control']} />
           <Engagement label="02" title="Dedicated Team" desc="Build a focused multi-role team around a product, process or growth target." bullets={['Multi-role team','Shared delivery ownership','Scale as needs change']} featured />
@@ -252,7 +294,7 @@ function Home() {
 
     <section className="section section-light tools-section">
       <div className="container">
-        <div className="section-head split-head"><div><SectionLabel eyebrow="05 / WORK WITH YOUR STACK">Technology is only one layer.</SectionLabel></div><p>We can align people with the tools your teams already use across engineering, sales, finance, operations, marketing and support.</p></div>
+        <div className="section-head split-head"><div><SectionLabel eyebrow="05 / TOOLS">People who know your stack.</SectionLabel></div><p>We match candidates to the tools your team is already using—not the other way around.</p></div>
         <div className="tool-board">
           <div className="tool-board-head"><span>TECH + PRODUCT</span><span className="tool-count">01</span></div>
           <ToolCloud items={tech}/>
@@ -264,14 +306,14 @@ function Home() {
     </section>
 
     <section className="section section-light industries-preview">
-      <div className="container"><div className="section-head split-head"><div><SectionLabel eyebrow="06 / INDUSTRIES">Built for teams with something to move.</SectionLabel></div><p>From startups to established businesses, staffing can be the fastest way to add capability without rebuilding the organisation around every new need.</p></div>
+      <div className="container"><div className="section-head split-head"><div><SectionLabel eyebrow="06 / INDUSTRIES">Wherever the gap is.</SectionLabel></div><p>We've helped startups and scale-ups fill roles quickly without the overhead of a full recruitment process. If you're moving fast, that matters.</p></div>
         <div className="industry-grid">{industries.map(([title,desc],i)=><div className="industry-card" key={title}><span>0{i+1}</span><h3>{title}</h3><p>{desc}</p></div>)}</div>
       </div>
     </section>
 
     <section className="final-cta">
       <div className="final-noise"></div>
-      <div className="container final-cta-inner"><div><span className="tiny-overline">LET'S BUILD THE TEAM</span><h2>Your next hire should <em>change the pace.</em></h2></div><div className="final-side"><p>Tell us what is blocked, which function is missing and what you need the person to deliver. We’ll take it from there.</p><PrimaryButton dark>Schedule with ANTI.AI</PrimaryButton></div></div>
+      <div className="container final-cta-inner"><div><span className="tiny-overline">LET'S TALK</span><h2>Tell us who you need.<br/><em>We'll find them.</em></h2></div><div className="final-side"><p>30 minutes is enough to get aligned on the role, the timeline, and what good looks like. Book a call and we'll take it from there.</p><PrimaryButton dark>Book a call with ANTI.AI</PrimaryButton></div></div>
     </section>
   </>;
 }
@@ -408,7 +450,7 @@ function StaffingCardItem({ t }) {
 
 function StaffingShowcaseWall() {
   const showcaseRoles = [
-    'AI / ML Engineer',
+    'ML / Data Science Engineer',
     'Business Development Executive',
     'HR Executive',
     'Finance Associate',
@@ -479,6 +521,10 @@ function Capability({ icon, title, desc, tag, large }) { return <article classNa
 function Engagement({ label, title, desc, bullets, featured }) { return <article className={`eng-card ${featured ? 'eng-featured' : ''}`}><span>{label}</span><h3>{title}</h3><p>{desc}</p><div className="bullets">{bullets.map(b => <div key={b}><span>+</span>{b}</div>)}</div></article> }
 
 function HowItWorks() {
+  useDocumentMeta(
+    'How It Works — ANTI.AI Staffing Process',
+    'Our 4-step staffing process: role scoping, candidate screening, direct interviews, and turnkey onboarding. First shortlists in 48 hours with a 14-day risk-free trial.'
+  );
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = [
@@ -523,16 +569,16 @@ function HowItWorks() {
       title: 'Direct Interviews',
       kicker: '03 / INTERVIEW COORDINATION',
       badge: 'DIRECT DIALOGUE',
-      desc: 'Interview pre-screened finalists directly on your schedule with zero administrative friction.',
+      desc: 'Talk directly with pre-screened finalists on your schedule without waiting on recruiter back-and-forth.',
       timeline: 'Fast 48h Cycles',
       process: [
-        { label: 'Direct Calendar Booking', detail: '1-click interview scheduling synced to your hiring managers’ availability.' },
-        { label: 'Candidate Pre-Briefing', detail: 'Finalists arrive fully aligned on your company mission, roadmap, and expectations.' },
-        { label: 'Same-Day Debriefs', detail: 'Rapid feedback coordination to maintain momentum and secure top candidates quickly.' }
+        { label: 'Direct Calendar Booking', detail: 'Simple interview booking that works directly with your hiring manager\'s schedule.' },
+        { label: 'Candidate Pre-Briefing', detail: 'Candidates show up already knowing what your company does and what you expect from the role.' },
+        { label: 'Same-Day Debriefs', detail: 'Quick feedback after each call so good candidates do not drop off.' }
       ],
       deliverables: [
-        { title: 'Frictionless Scheduling', detail: 'Direct calendar integration with zero recruiter gatekeeping or delays.' },
-        { title: 'Structured Scorecards', detail: 'Standardized evaluation criteria to compare finalists with total clarity.' }
+        { title: 'Straightforward Scheduling', detail: 'Direct calendar links with no gatekeepers in the middle.' },
+        { title: 'Clear Evaluation Rubric', detail: 'Simple scorecards so your team can evaluate and compare finalists fairly.' }
       ],
       tags: ['Direct Calendar Booking', 'Pre-Briefed Candidates', 'Rapid Feedback Loops']
     },
@@ -541,16 +587,16 @@ function HowItWorks() {
       title: 'Placement & Onboarding',
       kicker: '04 / COMPLIANCE & RETENTION',
       badge: 'TURNKEY ONBOARDING',
-      desc: 'Turnkey employment agreements, global payroll compliance, and seamless Day-1 onboarding.',
+      desc: 'We handle the contracts, international payroll, and onboarding paperwork so they can start right away.',
       timeline: 'Day-1 Ready',
       process: [
-        { label: 'Compliant Contracts & IP', detail: 'Enforceable employment agreements, full IP protection, and confidentiality NDAs.' },
-        { label: 'Global Payroll & Taxes', detail: 'Turnkey international payroll, statutory benefits, and tax compliance across 40+ countries.' },
-        { label: 'Day-1 Ramp-Up Support', detail: 'Structured kickoff playbooks, system access setup, and ongoing 30/60/90-day checkpoints.' }
+        { label: 'Clean Contracts & IP Protection', detail: 'Standardized employment agreements, IP assignment, and mutual NDAs.' },
+        { label: 'International Payroll & Taxes', detail: 'Complete payroll and tax compliance handled in 40+ countries without entity setup.' },
+        { label: 'Day-1 Ramp-Up', detail: 'System access checklists and regular 30/60/90-day check-ins to make sure everything runs smoothly.' }
       ],
       deliverables: [
-        { title: '100% Legal & IP Security', detail: 'Fully compliant international contracts safeguarding your business and IP.' },
-        { title: 'Replacement Guarantee', detail: 'Continuous HR support and full replacement guarantee for complete confidence.' }
+        { title: 'Ironclad IP & Legal Protection', detail: 'Solid agreements that protect your code, client data, and proprietary work.' },
+        { title: 'Replacement Guarantee', detail: 'If someone is not the right fit, we find you an immediate replacement at zero extra cost.' }
       ],
       tags: ['Turnkey Contracts', 'Global Payroll & EOR', 'Replacement Guarantee']
     }
@@ -559,8 +605,8 @@ function HowItWorks() {
   return (
     <PageFrame
       eyebrow="HOW IT WORKS"
-      title={<>Built for velocity.<br/><em>Designed for exceptional teams.</em></>}
-      intro="A streamlined, 4-step HR staffing solution connecting ambitious companies with vetted talent across technical, commercial, and operational functions."
+      title={<>Four steps.<br/><em>One person placed.</em></>}
+      intro="We keep it straightforward. You tell us the role and what success looks like in 90 days. We find the person, you meet them, and they start."
     >
       <section className="section section-light" id="process">
         <div className="container">
@@ -684,7 +730,7 @@ function HowItWorks() {
             <div>
               <Zap/>
               <b>Turnkey HR & Compliance</b>
-              <span>Seamless contracts, global payroll in 40+ countries, and complete hiring support.</span>
+              <span>Clear contracts, worldwide payroll, and hands-on onboarding support from day one.</span>
             </div>
           </div>
         </div>
@@ -693,7 +739,7 @@ function HowItWorks() {
         <div className="container cta-panel">
           <div>
             <span className="tiny-overline">READY TO BUILD</span>
-            <h2>Bring exceptional talent into your next milestone.</h2>
+            <h2>Get the right person in the seat.</h2>
           </div>
           <PrimaryButton/>
         </div>
@@ -703,6 +749,10 @@ function HowItWorks() {
 }
 
 function Talent() {
+  useDocumentMeta(
+    'Browse Talent — Pre-Vetted Specialists | ANTI.AI Staffing',
+    'Explore 30+ pre-screened specialists across technology, sales, HR, finance, marketing and customer support. Filter by function, skill, and seniority.'
+  );
   const [searchParams, setSearchParams] = useSearchParams();
   const filterParam = searchParams.get('filter') || 'All';
   const queryParam = searchParams.get('q') || '';
@@ -794,8 +844,8 @@ function Talent() {
   return (
     <PageFrame
       eyebrow="TALENT"
-      title={<>Talent for the <em>next problem.</em></>}
-      intro="A curated directory of pre-screened specialists across technical, commercial, HR, finance, marketing and operational functions."
+      title={<>People worth <em>talking to.</em></>}
+      intro="Everyone here has been through our vetting process. These aren't profiles pulled from a database—they're people we'd actually put in front of you."
     >
       <section className="section section-light talent-page-section" id="profiles">
         <div className="container">
@@ -902,7 +952,7 @@ function Talent() {
                 </p>
               ) : (
                 <p>
-                  We actively source bespoke roles beyond our representative pool. Tell us your exact specifications or try another search term.
+                  We place custom roles every week beyond what is listed here. Tell us who you're looking for or try another search term.
                 </p>
               )}
               <div className="talent-empty-actions">
@@ -955,13 +1005,21 @@ function Talent() {
 }
 
 function Industries() {
-  return <PageFrame eyebrow="INDUSTRIES" title={<>Different businesses.<br/><em>Same need for momentum.</em></>} intro="Position ANTI.AI wherever the roadmap is constrained by skill gaps, hiring latency or a sudden increase in delivery demand.">
+  useDocumentMeta(
+    'Industries We Serve — SaaS, FinTech, Healthcare & More | ANTI.AI',
+    'Staffing solutions for SaaS, FinTech, healthcare, real estate, e-commerce and startups. Cross-functional talent across 6 business domains.'
+  );
+  return <PageFrame eyebrow="INDUSTRIES" title={<>Who we've worked with.<br/><em>And what they needed.</em></>} intro="We work with companies at different stages and across different sectors. The common thread is usually a gap that's slowing something down.">
     <section className="section section-light" id="list"><div className="container industry-list">{industries.map(([title, desc], i) => <article key={title}><div className="industry-num">0{i + 1}</div><div><h3>{title}</h3><p>{desc}</p></div><div className="industry-roles"><span>Technology</span><span>Business</span><span>Operations</span></div></article>)}</div></section>
-    <section className="section red-section"><div className="container two-col-feature red-feature"><div><span className="tiny-overline">FROM GAP TO CAPACITY</span><h2>Staffing is a lever, <em>not a destination.</em></h2></div><div><p>Accelerate critical milestones, add AI capability, expand sales capacity, strengthen HR or finance operations—and build an exceptional team around your growth priorities.</p><PrimaryButton dark>Plan an engagement</PrimaryButton></div></div></section>
+    <section className="section red-section"><div className="container two-col-feature red-feature"><div><span className="tiny-overline">FROM GAP TO CAPACITY</span><h2>The right person changes<em> what's possible.</em></h2></div><div><p>We've seen a single hire unblock a product launch, double a sales pipeline, and fix a finance function that had been held together with spreadsheets. It's not magic—it's just the right person.</p><PrimaryButton dark>Talk to us</PrimaryButton></div></div></section>
   </PageFrame>;
 }
 
 function Contact() {
+  useDocumentMeta(
+    'Contact & Book a Call — ANTI.AI Staffing',
+    'Book a 30-minute staffing consultation or email us directly. Same-day intake review, pre-screened finalists in 48 hours, 14-day risk-free trial.'
+  );
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
@@ -993,14 +1051,14 @@ function Contact() {
     },
     {
       q: 'Can we hire across multiple non-engineering departments?',
-      a: 'Yes. ANTI.AI provides full cross-functional coverage across 6 core domains: Technology & AI, Sales & Business Development, HR & People Ops, Finance & Operations, Marketing, and Customer Success.'
+      a: 'Yes. ANTI.AI provides full cross-functional coverage across 6 core domains: Technology & Engineering, Sales & Business Development, HR & People Ops, Finance & Operations, Marketing, and Customer Success.'
     }
   ];
 
   return (
     <PageFrame
       eyebrow="CONTACT"
-      title={<>Let's talk about<br/><em>the work.</em></>}
+      title={<>Let's figure out<br/><em>what you need.</em></>}
       intro="Give us the context. We’ll make the next conversation immediately useful."
     >
       {/* SLA Guarantees Section */}
@@ -1031,7 +1089,7 @@ function Contact() {
                 <span className="sla-metric-tag">14-DAY TRIAL</span>
               </div>
               <h3 className="sla-card-title">Risk-Free Guarantee</h3>
-              <p className="sla-card-desc">Zero financial commitment if the fit and deliverable velocity aren't seamless on Day 1.</p>
+              <p className="sla-card-desc">If your new hire isn't the right fit in the first two weeks, you owe nothing and we find you a replacement immediately.</p>
             </div>
 
             <div className="sla-card">
@@ -1040,7 +1098,7 @@ function Contact() {
                 <span className="sla-metric-tag">DIRECT ACCESS</span>
               </div>
               <h3 className="sla-card-title">Zero Recruiter Middlemen</h3>
-              <p className="sla-card-desc">Direct dialogue with founders and engineering leads who understand production code.</p>
+              <p className="sla-card-desc">You speak directly with experienced practitioners who understand team dynamics, not commission-driven screeners.</p>
             </div>
           </div>
         </div>
@@ -1059,7 +1117,7 @@ function Contact() {
 
             <h2>Book a 30-minute scoping session.</h2>
             <p className="ch-card-lead">
-              Skip back-and-forth emails. Reserve a direct video call with Tanishq & the ANTI.AI staffing leads to align on role scorecard, technical stack, and market compensation benchmarks.
+              Pick a time that works. You'll speak directly with Tanishq and the ANTI.AI team—not a screener. Bring the job description or just talk through what you're trying to get done.
             </p>
 
             <div className="ch-action-buttons">
@@ -1115,7 +1173,7 @@ function Contact() {
 
             <h3>Prefer direct email?</h3>
             <p className="ch-card-lead">
-              Send your job specification or rough skill wishlist straight to our staffing leads. A senior partner reviews role availability and responds within 24 hours.
+              Write to us with whatever you've got—a proper job spec, a rough idea, or just a problem you're trying to solve. Someone will read it and get back to you the same day.
             </p>
 
             <div className="ch-email-action-box">
@@ -1163,7 +1221,7 @@ function Contact() {
               <SectionLabel eyebrow="01 / WHAT TO EXPECT">The 30-Minute Call Breakdown.</SectionLabel>
             </div>
             <p>
-              No high-pressure sales scripts. We run every discovery call like an engineering sprint calibration so you get immediate clarity on timing, talent availability, and market rates.
+              It's a working call, not a pitch. We use the time to understand exactly what you're hiring for and give you an honest view of availability, timelines and what it's likely to cost.
             </p>
           </div>
 
@@ -1180,8 +1238,8 @@ function Contact() {
 
             <div className="agenda-card">
               <div className="agenda-time-pill">10 — 20 MIN</div>
-              <h3>Market Velocity & Comp Bands</h3>
-              <p>We evaluate current market salary benchmarks and determine the right engagement model (embedded specialist vs dedicated team).</p>
+              <h3>Salary Ranges & Engagement Shape</h3>
+              <p>We share current market pay rates for the role and help you choose the setup that makes sense (embedded specialist vs dedicated team).</p>
               <div className="agenda-bullets">
                 <span>+ Real-time salary benchmark check</span>
                 <span>+ Engagement shape evaluation</span>
@@ -1190,8 +1248,8 @@ function Contact() {
 
             <div className="agenda-card">
               <div className="agenda-time-pill">20 — 30 MIN</div>
-              <h3>Dossier Roadmap & Next Steps</h3>
-              <p>We finalize the role scorecard and agree on the specific delivery date for your first curated candidate dossier (&lt;48 hours).</p>
+              <h3>Candidate Profiles & Delivery Date</h3>
+              <p>We lock down your core requirements and commit to an exact date for your first 2–3 vetted candidate profiles (&lt;48 hours).</p>
               <div className="agenda-bullets">
                 <span>+ Custom hiring scorecard</span>
                 <span>+ First dossier delivery timeline</span>
@@ -1206,21 +1264,21 @@ function Contact() {
         <div className="container">
           <div className="section-head split-head">
             <div>
-              <SectionLabel eyebrow="02 / GLOBAL REACH">Synchronous Global Operations.</SectionLabel>
+              <SectionLabel eyebrow="02 / GLOBAL REACH">Working In Your Timezone.</SectionLabel>
             </div>
             <p>
-              ANTI.AI maintains continuous staffing coverage across all major business timezones, ensuring seamless communication and Day-1 team integration.
+              Our candidates work synchronous hours with your team in North America, the UK, Europe, or Asia, so daily collaboration happens in real time.
             </p>
           </div>
 
           <div className="contact-channels-grid">
             <div className="channel-box">
               <div className="channel-box-top">
-                <Globe2 size={20} className="channel-icon" />
+                <AntiAiGlobe size={22} className="channel-icon" />
                 <span className="channel-pill">AMERICAS</span>
               </div>
               <h4>US East & West (EST / PST)</h4>
-              <p>Structured 4–6 hour daily synchronous overlap with North American teams, supporting agile standups and sprint planning.</p>
+              <p>4–6 hours of direct daily overlap with North American teams for standups, review cycles, and sprint planning.</p>
               <div className="channel-foot">
                 <span>Synchronous Hours</span>
                 <b>09:00 — 18:00 EST</b>
@@ -1229,11 +1287,11 @@ function Contact() {
 
             <div className="channel-box">
               <div className="channel-box-top">
-                <Globe2 size={20} className="channel-icon" />
+                <AntiAiGlobe size={22} className="channel-icon" />
                 <span className="channel-pill">EUROPE</span>
               </div>
               <h4>UK & Europe (GMT / CET)</h4>
-              <p>Complete business hours alignment with London, Berlin, Amsterdam, and European hubs with native English fluency.</p>
+              <p>Full working hours alignment with teams in London, Berlin, Amsterdam, and European hubs.</p>
               <div className="channel-foot">
                 <span>Synchronous Hours</span>
                 <b>09:00 — 17:30 GMT/CET</b>
@@ -1598,11 +1656,11 @@ function TalentHeroArt() {
   const AXES = [
     {
       id: 0,
-      title: 'TECHNOLOGY & AI',
-      short: 'TECH & AI',
-      metric: 'AI/ML · FULL-STACK · CLOUD',
+      title: 'TECHNOLOGY & ENG',
+      short: 'TECH & ENG',
+      metric: 'ML · FULL-STACK · CLOUD',
       score: '98%',
-      filterCategory: 'Technology & AI',
+      filterCategory: 'Technology & Engineering',
       sla: '<48H FIRST DOSSIER · TOP 3%',
       x: 250,
       y: 65,
@@ -2022,8 +2080,8 @@ function IndustriesHeroArt() {
           {/* Datum 1: AI */}
           <line x1="230" y1="63" x2="330" y2="35" strokeDasharray="2 2" />
           <circle cx="230" cy="63" r="3" fill="#b8121f" />
-          <text x="338" y="38" fontFamily="'DM Mono', monospace" fontSize="8.5" fill="#1c191a" fontWeight="700">FOUNDATION AI</text>
-          <text x="338" y="49" fontFamily="'DM Mono', monospace" fontSize="7" fill="#6d6560">LLM &amp; INFERENCE CORE</text>
+          <text x="338" y="38" fontFamily="'DM Mono', monospace" fontSize="8.5" fill="#1c191a" fontWeight="700">FOUNDATION TECH</text>
+          <text x="338" y="49" fontFamily="'DM Mono', monospace" fontSize="7" fill="#6d6560">ENGINEERING &amp; PLATFORM CORE</text>
 
           {/* Datum 2: Fintech */}
           <line x1="140" y1="205" x2="60" y2="245" strokeDasharray="2 2" />
@@ -2333,10 +2391,10 @@ function Footer() {
     <div className="container">
       <div className="footer-hero">
         <div>
-          <span className="tiny-overline">WHEN THE BUSINESS NEEDS MORE PEOPLE, MOVE WITH INTENT.</span>
-          <h2>Build the right team.<br/><em>Then get back to building.</em></h2>
+          <span className="tiny-overline">ANTI.AI STAFFING</span>
+          <h2>Hire the person.<br/><em>Not the process.</em></h2>
         </div>
-        <div className="footer-hero-side"><p>Tell us the function, the role and the outcome. We’ll help you shape the requirement and the next conversation.</p><PrimaryButton dark>Schedule a staffing call</PrimaryButton></div>
+        <div className="footer-hero-side"><p>Tell us the role and what needs to get done. We'll do the searching, vetting, and shortlisting. You just meet the finalists.</p><PrimaryButton dark>Book a call</PrimaryButton></div>
       </div>
 
       <div className="footer-tools-block">
@@ -2346,7 +2404,10 @@ function Footer() {
 
       <div className="footer-main">
         <div className="footer-brand-col">
-          <img src="/logo-white.svg" alt="ANTI.AI" style={{ height: 'clamp(34px, 4.5vw, 52px)', width: 'auto', marginBottom: '26px', display: 'block' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginBottom: '24px' }}>
+            <AntiAiGlobe size={68} light className="footer-globe-icon" />
+            <img src="/logo-white.svg" alt="ANTI.AI" style={{ height: 'clamp(26px, 3vw, 32px)', width: 'auto', display: 'block' }} />
+          </div>
           <p className="footer-tagline">Staffing across technology, sales, HR, finance, operations, marketing and customer teams—designed around the work that needs to get done.</p>
           <div className="footer-socials">
             <a href="https://www.instagram.com/antiaishield?igsh=MTY2aGkxdjRiOWhvMA%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -2363,18 +2424,35 @@ function Footer() {
             </a>
           </div>
         </div>
-        <FooterColumn title="STAFFING" links={[['Staffing', '/staffing'], ['How it works', '/how-it-works#process'], ['Talent', '/talent#profiles'], ['Industries', '/industries#list'], ['Contact', '/contact#details']]} />
+        <FooterColumn title="STAFFING" links={[['Staffing', '/staffing'], ['How it works', '/how-it-works#process'], ['Talent', '/talent#profiles'], ['Industries', '/industries#list'], ['Contact', '/contact#details'], ['ANTI.AI Main ↗', 'https://antiai.ltd']]} />
         <FooterColumn title="FUNCTIONS" links={roleFamilies.map(f => [f.title, `/talent?filter=${encodeURIComponent(f.title)}#profiles`])} />
-        <div className="footer-column"><span className="footer-column-title">TALK TO US</span><a className="footer-big-link" href={CALENDLY} target="_blank" rel="noreferrer">Book a 30-min call <ArrowUpRight size={16}/></a><a className="footer-mail" href="mailto:services@antiai.ltd">services@antiai.ltd</a><p>Have a role, team or capacity problem? Start with a direct conversation.</p></div>
+        <div className="footer-column">
+          <span className="footer-column-title">TALK TO US</span>
+          <a className="footer-big-link" href={CALENDLY} target="_blank" rel="noreferrer">Book a 30-min call <ArrowUpRight size={16}/></a>
+          <a className="footer-mail" href="mailto:services@antiai.ltd">services@antiai.ltd</a>
+          <a className="footer-mail" href="https://antiai.ltd" target="_blank" rel="noreferrer" style={{marginTop: '6px', opacity: 0.8, fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '4px'}}>antiai.ltd <ArrowUpRight size={12}/></a>
+          <p>Got a role to fill or a team to build? Just tell us what's needed.</p>
+        </div>
       </div>
 
-      <div className="footer-bottom"><span>© 2026 ANTI.AI. All rights reserved.</span><span className="footer-motto">अन्ते सत्यं विजयते। <b>THE TRUTH PREVAILS.</b></span></div>
+      <div className="footer-bottom"><span>© 2026 ANTI.AI. All rights reserved. Part of <a href="https://antiai.ltd" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>ANTI.AI Group</a></span><span className="footer-motto">अन्ते सत्यं विजयते। <b>THE TRUTH PREVAILS.</b></span></div>
     </div>
   </footer>;
 }
 
 function FooterColumn({ title, links }) {
-  return <div className="footer-column"><span className="footer-column-title">{title}</span>{links.map(([label, href]) => <NavLink key={label} to={href}>{label}</NavLink>)}</div>;
+  return (
+    <div className="footer-column">
+      <span className="footer-column-title">{title}</span>
+      {links.map(([label, href]) =>
+        href.startsWith('http') ? (
+          <a key={label} href={href} target="_blank" rel="noreferrer">{label}</a>
+        ) : (
+          <NavLink key={label} to={href}>{label}</NavLink>
+        )
+      )}
+    </div>
+  );
 }
 
 function MobileBookBar() {
