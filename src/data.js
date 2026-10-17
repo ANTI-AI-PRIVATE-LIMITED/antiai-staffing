@@ -1,12 +1,12 @@
 export const roleFamilies = [
   {
     id: 'technology',
-    kicker: 'TECH + AI',
-    title: 'Technology & AI',
+    kicker: 'TECHNOLOGY',
+    title: 'Technology & Engineering',
     description: 'Build, modernise and scale with engineers and technical specialists across product, data and infrastructure.',
     icon: 'code',
     accent: 'dark',
-    roles: ['AI / ML Engineer', 'Full-Stack Engineer', 'Data Engineer', 'Cloud / DevOps', 'QA Automation', 'Cybersecurity']
+    roles: ['ML / Data Science Engineer', 'Full-Stack Engineer', 'Data Engineer', 'Cloud / DevOps', 'QA Automation', 'Cybersecurity']
   },
   {
     id: 'business',
@@ -56,22 +56,22 @@ export const roleFamilies = [
 ];
 
 export const talent = [
-  // --- Technology & AI (5 roles) ---
+  // --- Technology & Engineering (5 roles) ---
   {
-    name: 'AI / ML Engineer',
-    family: 'Technology & AI',
+    name: 'ML / Data Science Engineer',
+    family: 'Technology & Engineering',
     seniority: 'Senior · 6+ Yrs',
-    highlight: 'Architects production RAG pipelines & fine-tuned LLM reasoning agents.',
-    skills: ['Python', 'LLMs', 'RAG', 'FastAPI', 'PyTorch'],
-    stack: 'Python · LLMs · RAG · FastAPI',
+    highlight: 'Architects production data pipelines & fine-tuned model reasoning systems for real-world applications.',
+    skills: ['Python', 'PyTorch', 'FastAPI', 'MLflow', 'Databricks'],
+    stack: 'Python · PyTorch · FastAPI · MLflow',
     meta: 'TECH · SENIOR',
-    code: 'AI',
+    code: 'ML',
     tone: 'black',
     timezone: 'US & EU Overlap'
   },
   {
     name: 'Full-Stack Engineer',
-    family: 'Technology & AI',
+    family: 'Technology & Engineering',
     seniority: 'Senior · 7+ Yrs',
     highlight: 'Builds scalable web applications with resilient TypeScript APIs & modern React frontends.',
     skills: ['React', 'Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
@@ -83,7 +83,7 @@ export const talent = [
   },
   {
     name: 'Data Engineer',
-    family: 'Technology & AI',
+    family: 'Technology & Engineering',
     seniority: 'Senior · 5+ Yrs',
     highlight: 'Scales high-throughput ETL pipelines, automated data lakes, and Snowflake warehouses.',
     skills: ['Snowflake', 'Spark', 'Airflow', 'dbt', 'Python'],
@@ -95,7 +95,7 @@ export const talent = [
   },
   {
     name: 'Cloud / DevOps Engineer',
-    family: 'Technology & AI',
+    family: 'Technology & Engineering',
     seniority: 'Lead · 8+ Yrs',
     highlight: 'Infrastructure as Code, zero-downtime CI/CD workflows, and SOC2 cloud compliance.',
     skills: ['Kubernetes', 'Terraform', 'AWS', 'Docker', 'CI/CD'],
@@ -107,7 +107,7 @@ export const talent = [
   },
   {
     name: 'Frontend / UI Engineer',
-    family: 'Technology & AI',
+    family: 'Technology & Engineering',
     seniority: 'Senior · 5+ Yrs',
     highlight: 'Crafts responsive interfaces, fluid micro-interactions, and enterprise design systems.',
     skills: ['React', 'TypeScript', 'Tailwind', 'Next.js', 'Framer'],

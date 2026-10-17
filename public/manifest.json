@@ -1,0 +1,22 @@
+{
+  "name": "ANTI.AI Staffing",
+  "short_name": "ANTI.AI",
+  "description": "Pre-vetted engineering, sales, HR, and operations staffing",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d0e",
+  "theme_color": "#8b1117",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/AntiAilogo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
